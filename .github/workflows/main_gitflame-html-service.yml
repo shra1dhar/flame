@@ -1,3 +1,4 @@
+
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
@@ -37,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'production'
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -51,6 +52,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'gitflame-html-service'
-          slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_b4f52ad7c5264d978d68bce2d895f370 }}
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9E3DBD7CE69E4E86A37DFEFCF470C646 }}
           package: .
+>>>>>>> aa5fd9f1481893395a87bbf69e47ad833a84b79b
