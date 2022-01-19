@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import CardWrap from '../components/card/card-wrap'
+import Card from '../components/card'
+import CardWrap from '../components/card/small-card'
 import { CommonLinks } from '../components/head/CommonLinks'
 
 const Home: NextPage = () => {
@@ -13,6 +14,7 @@ const Home: NextPage = () => {
 			</Head>
 			<main>
 				<CardWrap />
+				<Card />
 			</main>
 
 			<footer></footer>

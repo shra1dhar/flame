@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CardWrap = () => {
+const SmallCard = () => {
 	return (
 		<div className="bg-gray-600 flex p-5 mt-8 space-x-4 items-center shadow-xl max-w-sm rounded-md">
 			<img src="https://avatars.githubusercontent.com/u/5550850?v=4" alt="image" className="h-14 w-14 rounded-full" />
@@ -12,4 +12,4 @@ const CardWrap = () => {
 	)
 }
 
-export default CardWrap
+export default SmallCard
