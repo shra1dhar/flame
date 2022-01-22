@@ -1,7 +1,13 @@
 import React from 'react'
 
 const Signup = () => {
-	return <div></div>
+	function onGithubLogin() {}
+
+	return (
+		<section>
+			<form></form>
+		</section>
+	)
 }
 
 export default Signup

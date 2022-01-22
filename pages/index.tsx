@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Card from '../components/card'
@@ -15,6 +14,7 @@ const Home: NextPage = () => {
 			</Head>
 			<main>
 				<CardWrap />
+				<a href="http://localhost:3000/api/auth/github"> Click here</a>
 				<Card />
 			</main>
 
