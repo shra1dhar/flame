@@ -14,7 +14,7 @@ const Home: NextPage = () => {
 			</Head>
 			<main>
 				<CardWrap />
-				<a href="http://localhost:3000/api/auth/github"> Click here</a>
+				<a href="http://localhost:3000/api/auth/github/signup"> Click here</a>
 				<Card />
 			</main>
 
