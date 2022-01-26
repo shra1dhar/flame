@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getJWT } from '../../../../../lib/jwt-token'
 
 // @TODO - To prevent CSRF attack, add an unguessable string as 'state' parameter
 // check the value of state and compare in this middlewareMore on here:
@@ -12,13 +13,21 @@ export async function middleware(req: NextRequest) {
 			status: 422,
 		})
 	}
+
 	console.log('working =====> ')
 	// Github has authorized us. Onboard the user now
-	await getGithubAccessToken(githubCode)
+	const { code, hasError } = await getGithubAccessToken(githubCode)
+	if (hasError || !code) {
+		return new Response('Not authorised', {
+			status: 401,
+		})
+	}
+
+	const jwtToken = getJWT({ code })
 }
 
 interface AccessToken {
-	token: string
+	code: string
 	hasError: boolean
 }
 
@@ -29,6 +38,7 @@ async function getGithubAccessToken(code: string): Promise<AccessToken> {
 		client_secret: process.env.GITHUB_CLIENT_SECRET!,
 		code,
 	}
+
 	try {
 		const response = await fetch(URI, {
 			method: 'POST',
@@ -41,8 +51,8 @@ async function getGithubAccessToken(code: string): Promise<AccessToken> {
 
 		const data = await response.json()
 		console.log(data)
-		return { token: '', hasError: true }
+		return { code: '', hasError: true }
 	} catch (e) {
-		return { token: '', hasError: true }
+		return { code: '', hasError: true }
 	}
 }
