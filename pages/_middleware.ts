@@ -1,14 +1,22 @@
-import type { NextFetchEvent, NextRequest } from 'next/server'
-import cors from '../lib/cors'
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
+import { JWT_COOKIE_NAME } from '../lib/jwt-token/constants'
+import jwt from 'jsonwebtoken'
+import { isJWTVerified } from '../lib/jwt-token'
+
+const KEY = process.env.JWT_CRYPT_KEY as string
 
 export function middleware(req: NextRequest, ev: NextFetchEvent) {
-	// `cors` also takes care of handling OPTIONS requests
-	// return cors(
-	// 	req,
-	// 	new Response(JSON.stringify({ message: 'Hello World!' }), {
-	// 		status: 200,
-	// 		headers: { 'Content-Type': 'application/json' },
-	// 	}),
-	// )
-	// return
+	// Only rewrite requests to `/`, as _middleware on the `/pages` root will be executed in every request of the app.
+	if (req.nextUrl.pathname === '/') {
+		// Parse the cookie
+		const hasCookie = JSON.parse(req.cookies[JWT_COOKIE_NAME] || 'false')
+
+		if (!hasCookie && !isJWTVerified(hasCookie)) {
+			return redirectToSignup()
+		}
+	}
+}
+
+function redirectToSignup() {
+	return NextResponse.rewrite('/signup')
 }
