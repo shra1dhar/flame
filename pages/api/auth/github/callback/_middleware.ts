@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getUserGithubDetails } from '../../../../../lib/github-api'
 import { getJWT } from '../../../../../lib/jwt-token'
 
 // @TODO - To prevent CSRF attack, add an unguessable string as 'state' parameter
@@ -14,7 +15,6 @@ export async function middleware(req: NextRequest) {
 		})
 	}
 
-	console.log('working =====> ')
 	// Github has authorized us. Onboard the user now
 	const { code, hasError } = await getGithubAccessToken(githubCode)
 	if (hasError || !code) {
@@ -23,7 +23,15 @@ export async function middleware(req: NextRequest) {
 		})
 	}
 
-	const jwtToken = getJWT({ code })
+	const { hasError: hasGithubApiFailed, data: user } = await getUserGithubDetails(code)
+	if (hasGithubApiFailed) {
+		return new Response('Internal Server Error. Try after something', {
+			status: 404,
+		})
+	}
+
+	const jwtToken = getJWT({ code, ...user })
+	// send back in cookie
 }
 
 interface AccessToken {
