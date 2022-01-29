@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getUserGithubDetails } from '../../../../../lib/github-api'
-import { getJWT } from '../../../../../lib/jwt-token'
+import { createJWTToken } from '../../../../../lib/jwt/jwt-token'
+import { setUserCookie } from '../../../../../lib/jwt/set-jwt-cookie'
 
 // @TODO - To prevent CSRF attack, add an unguessable string as 'state' parameter
 // check the value of state and compare in this middlewareMore on here:
@@ -25,13 +26,18 @@ export async function middleware(req: NextRequest) {
 
 	const { hasError: hasGithubApiFailed, data: user } = await getUserGithubDetails(code)
 	if (hasGithubApiFailed) {
-		return new Response('Internal Server Error. Try after something', {
+		return new Response('Internal Server Error. Try after sometime', {
 			status: 404,
 		})
 	}
 
-	const jwtToken = getJWT({ code, ...user })
-	// send back in cookie
+	const jwtToken = createJWTToken({ code, ...user })
+	console.log('token encoded: ', jwtToken)
+
+	// set JWT cookie in response
+	const res = NextResponse.redirect('/home')
+	setUserCookie(req, res, jwtToken)
+	return res
 }
 
 interface AccessToken {
@@ -58,8 +64,7 @@ async function getGithubAccessToken(code: string): Promise<AccessToken> {
 		})
 
 		const data = await response.json()
-		console.log(data)
-		return { code: '', hasError: true }
+		return { code: data.access_token, hasError: false }
 	} catch (e) {
 		return { code: '', hasError: true }
 	}

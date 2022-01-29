@@ -1,11 +1,20 @@
 import React from 'react'
+import CardWrapper from '@components/card/card-wrapper'
 
 const Signup = () => {
-	function onGithubLogin() {}
-
 	return (
 		<section>
-			<form></form>
+			<form>
+				<CardWrapper>
+					<div className="p-10">
+						<h1 className="text-4xl text-center text-sky-50">Signup to GitFlame 🔥</h1>
+					</div>
+
+					<hr className="opacity-10" />
+
+					<div>Details are here</div>
+				</CardWrapper>
+			</form>
 		</section>
 	)
 }
