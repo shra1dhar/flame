@@ -4,11 +4,7 @@ import Signup from '@components/signup'
 const SignupPage = () => {
 	return (
 		<div>
-			<main>
-				<Signup />
-			</main>
-
-			<footer></footer>
+			<Signup />
 		</div>
 	)
 }

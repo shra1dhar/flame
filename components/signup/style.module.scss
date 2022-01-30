@@ -1,0 +1,9 @@
+.glasscard {
+	@apply backdrop-blur-sm bg-white/10 my-20 rounded-xl py-2.5;
+	width: 35vw;
+}
+
+.heading {
+	@apply text-4xl text-center text-sky-100/70;
+	font-weight: 200;
+}

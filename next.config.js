@@ -34,6 +34,9 @@ const nextConfig = {
 			},
 		]
 	},
+	images: {
+		domains: ['*'],
+	},
 	purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
 }
 
