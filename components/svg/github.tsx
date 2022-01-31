@@ -3,8 +3,8 @@ import React from 'react'
 const GithubImg = () => {
 	return (
 		<svg
-			height="128"
-			width="128"
+			height="100"
+			width="100"
 			aria-hidden="true"
 			viewBox="0 0 16 16"
 			version="1.1"

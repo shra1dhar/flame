@@ -7,3 +7,26 @@
 	@apply text-4xl text-center text-sky-100/70;
 	font-weight: 200;
 }
+
+.signupForm {
+	@apply absolute flex justify-center align-middle w-full h-full;
+}
+
+.btn {
+	@apply px-10 py-2 rounded-lg;
+	background-color: rgba(240, 248, 255, 0.4);
+	&:hover {
+		background-color: rgba(240, 248, 255, 0.5);
+	}
+}
+
+.dashes {
+	@apply flex flex-nowrap gap-1 items-center justify-center;
+	// @apply flex-grow;
+}
+
+.dash {
+	@apply w-5 h-2 flex-shrink-0;
+	@apply rounded-2xl;
+	background-color: rgba(43, 42, 40, 0.699);
+}
