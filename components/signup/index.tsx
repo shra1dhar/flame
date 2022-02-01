@@ -8,8 +8,10 @@ import { useRouter } from 'next/router'
 const Signup = () => {
 	const router = useRouter()
 
-	function onSignup() {
-		router.push('/api/auth/signup')
+	function onSignup(e: React.SyntheticEvent<HTMLFormElement>) {
+		e.preventDefault()
+		console.log('clicked to submit')
+		router.push('/api/auth/github/signup')
 	}
 
 	return (

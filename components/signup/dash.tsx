@@ -10,8 +10,8 @@ const Dash = () => {
 		<div className={style.dashes}>
 			{Array(10)
 				.fill(0)
-				.map((dash) => (
-					<span className={style.dash} />
+				.map((_, index) => (
+					<span key={index} className={style.dash} />
 				))}
 		</div>
 	)

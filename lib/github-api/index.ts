@@ -6,12 +6,9 @@ const getUserGithubDetails = async (accessToken: string) => {
 	}
 
 	try {
-		const myHeaders = new Headers()
-		myHeaders.append('Authorization', `Bearer ${accessToken}`)
-
 		const requestOptions = {
 			method: 'GET',
-			headers: myHeaders,
+			headers: getHeaders(accessToken),
 		}
 
 		const response = await fetch('https://api.github.com/user', requestOptions)
@@ -23,6 +20,16 @@ const getUserGithubDetails = async (accessToken: string) => {
 		console.log('Github user request not successful', err)
 	}
 	return { hasError, data }
+}
+
+// async function fetchRepos(accessToken: string, username: string) {
+//   @TODO
+// }
+
+function getHeaders(accessToken: string) {
+	const myHeaders = new Headers()
+	myHeaders.append('Authorization', `Bearer ${accessToken}`)
+	return myHeaders
 }
 
 export { getUserGithubDetails }

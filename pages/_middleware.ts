@@ -17,5 +17,5 @@ export function middleware(req: NextRequest, ev: NextFetchEvent) {
 }
 
 function redirectToSignup() {
-	return NextResponse.rewrite('/signup')
+	return NextResponse.redirect('/signup')
 }
