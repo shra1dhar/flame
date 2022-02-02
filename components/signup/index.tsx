@@ -1,16 +1,15 @@
 import React from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import style from './style.module.scss'
 import LogoAnimation from './logo-animation'
 import backImg from '../../public/assets/images/mountain_background.jpg'
-import { useRouter } from 'next/router'
 
 const Signup = () => {
 	const router = useRouter()
 
 	function onSignup(e: React.SyntheticEvent<HTMLFormElement>) {
 		e.preventDefault()
-		console.log('clicked to submit')
 		router.push('/api/auth/github/signup')
 	}
 
