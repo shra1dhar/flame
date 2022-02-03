@@ -17,12 +17,12 @@ interface Data {
 }
 
 const redirect = {
-	destination: '/',
+	destination: '/signup',
 	permanent: false,
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const { req } = ctx
+	const { req } = ctx as any
 	try {
 		const hasCookie = req.cookies[USER_TOKEN]
 		if (!hasCookie) {
@@ -31,9 +31,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			}
 		}
 
-		const jwtToken = verifyJWT(hasCookie)
-		if (!jwtToken) {
+		const jwtToken: any = verifyJWT(hasCookie)
+		if (!jwtToken || jwtToken === 'string') {
 			return { redirect }
+		}
+
+		const user = {
+			username: jwtToken.username,
+			avatarUrl: jwtToken.avatarUrl,
 		}
 	} catch (err) {
 		console.log('Failed to verify JWT Token', err)

@@ -23,7 +23,7 @@ export async function middleware(req: NextRequest) {
 			status: 401,
 		})
 	}
-
+	console.log(code)
 	const { hasError: hasGithubApiFailed, data: user } = await getUserGithubDetails(code)
 	if (hasGithubApiFailed) {
 		return new Response('Internal Server Error. Try after sometime', {
@@ -32,7 +32,6 @@ export async function middleware(req: NextRequest) {
 	}
 
 	const jwtToken = createJWTToken({ code, ...user })
-	console.log('token encoded: ', jwtToken)
 
 	// set JWT cookie in response
 	const res = NextResponse.redirect('/home')

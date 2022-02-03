@@ -1,8 +1,10 @@
 const getUserGithubDetails = async (accessToken: string) => {
 	let hasError = false
 	let data = {
+		name: '',
 		username: '',
 		avatarUrl: '',
+		reposUrl: '',
 	}
 
 	try {
@@ -13,8 +15,13 @@ const getUserGithubDetails = async (accessToken: string) => {
 
 		const response = await fetch('https://api.github.com/user', requestOptions)
 		const user = await response.json()
-		data.username = user.login
-		data.avatarUrl = user.avatar_url
+
+		data = {
+			name: user.name,
+			username: user.login,
+			avatarUrl: user.avatar_url,
+			reposUrl: user.repos_url,
+		}
 	} catch (err) {
 		hasError = true
 		console.log('Github user request not successful', err)
