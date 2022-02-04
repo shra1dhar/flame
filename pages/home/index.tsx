@@ -1,20 +1,23 @@
-import { USER_TOKEN } from '@lib/jwt/constants'
-import { verifyJWT } from '@lib/jwt/jwt-token'
-import { JwtPayload } from 'jsonwebtoken'
-import { GetServerSideProps, NextPageContext } from 'next'
 import React, { FC } from 'react'
+import { GetServerSideProps } from 'next'
+import { verifyJWT } from '@lib/jwt/jwt-token'
+import { USER_TOKEN } from '@lib/jwt/constants'
+import HomePage, { GithubUser } from '@components/home-page'
 
-const Home = () => {
-	return <div>This is home</div>
+interface Props {
+	user: GithubUser
+}
+
+const Home: FC<Props> = ({ user }) => {
+	return (
+		<div className="flex justify-center">
+			<HomePage />
+			This is home{JSON.stringify(user)}
+		</div>
+	)
 }
 
 export default Home
-
-interface Data {
-	username: string
-	avatarUrl: string
-	repoUrl: string[]
-}
 
 const redirect = {
 	destination: '/signup',
@@ -39,13 +42,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		const user = {
 			username: jwtToken.username,
 			avatarUrl: jwtToken.avatarUrl,
+			reposUrl: jwtToken.reposUrl,
+			followersCount: jwtToken.followersCount,
+			followingCount: jwtToken.followingCount,
+		}
+
+		return {
+			props: {
+				user,
+			},
 		}
 	} catch (err) {
 		console.log('Failed to verify JWT Token', err)
 		return { redirect }
-	}
-
-	return {
-		props: {}, // will be passed to the page component as props
 	}
 }

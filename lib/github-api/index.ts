@@ -5,6 +5,8 @@ const getUserGithubDetails = async (accessToken: string) => {
 		username: '',
 		avatarUrl: '',
 		reposUrl: '',
+		followersCount: 0,
+		followingCount: 0,
 	}
 
 	try {
@@ -21,6 +23,8 @@ const getUserGithubDetails = async (accessToken: string) => {
 			username: user.login,
 			avatarUrl: user.avatar_url,
 			reposUrl: user.repos_url,
+			followersCount: user.followers,
+			followingCount: user.following,
 		}
 	} catch (err) {
 		hasError = true
