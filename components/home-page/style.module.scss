@@ -1,0 +1,9 @@
+.mainSection {
+	@apply p-10;
+	@apply bg-gray-700 w-full shadow-xl drop-shadow-lg;
+	max-width: 920px;
+}
+
+.avatar {
+	border-radius: 50%;
+}

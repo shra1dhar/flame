@@ -2,16 +2,25 @@ import React, { FC } from 'react'
 import { GetServerSideProps } from 'next'
 import { verifyJWT } from '@lib/jwt/jwt-token'
 import { USER_TOKEN } from '@lib/jwt/constants'
-import HomePage, { GithubUser } from '@components/home-page'
+import HomePage from '@components/home-page'
 
-interface Props {
+interface GithubUser {
+	name: string
+	username: string
+	avatarUrl: string
+	repoUrl: string
+	followersCount: string
+	followingCount: string
+}
+
+export interface HomeUser {
 	user: GithubUser
 }
 
-const Home: FC<Props> = ({ user }) => {
+const Home: FC<HomeUser> = ({ user }) => {
 	return (
-		<div className="flex justify-center">
-			<HomePage />
+		<div>
+			<HomePage user={user} />
 			This is home{JSON.stringify(user)}
 		</div>
 	)
@@ -40,6 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		}
 
 		const user = {
+			name: jwtToken.name,
 			username: jwtToken.username,
 			avatarUrl: jwtToken.avatarUrl,
 			reposUrl: jwtToken.reposUrl,

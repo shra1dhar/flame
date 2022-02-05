@@ -35,7 +35,8 @@ const nextConfig = {
 		]
 	},
 	images: {
-		domains: ['*'],
+		domains: ['*', 'avatars.githubusercontent.com'],
+		// formats: ['image/avif', 'image/webp', '*'],
 	},
 	purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
 }

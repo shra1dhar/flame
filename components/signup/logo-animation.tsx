@@ -14,7 +14,7 @@ const LogoAnimation = () => {
 			<Dash />
 
 			<div>
-				<Image className="rounded-full" src={logo.src} layout="fixed" width={100} height={100} />
+				<Image className="rounded-full" src={logo.src} layout="fixed" width={100} height={100} alt="Gitflame logo" />
 			</div>
 		</div>
 	)

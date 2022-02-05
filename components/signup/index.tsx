@@ -16,7 +16,7 @@ const Signup = () => {
 	return (
 		<main>
 			<div>
-				<Image src={backImg.src} objectFit="cover" layout="fill" placeholder="empty" alt="Background image" priority />
+				<Image src={backImg.src} objectFit="cover" layout="fill" placeholder="empty" alt="Background" priority />
 				<form onSubmit={onSignup} className={style.signupForm}>
 					{/* <CardWrapper css="w"> */}
 					<section className={style.glasscard}>
