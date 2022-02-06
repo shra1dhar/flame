@@ -1,8 +1,7 @@
 import React, { FC } from 'react'
 import { GetServerSideProps } from 'next'
-import { verifyJWT } from '@lib/jwt/jwt-token'
-import { USER_TOKEN } from '@lib/jwt/constants'
 import HomePage from '@components/home-page'
+import { getCookieData } from '@lib/jwt/get-session-cookie-data'
 
 interface GithubUser {
 	name: string
@@ -28,33 +27,24 @@ const Home: FC<HomeUser> = ({ user }) => {
 
 export default Home
 
-const redirect = {
-	destination: '/signup',
-	permanent: false,
-}
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const { req } = ctx as any
+	const { hasError, jwtPayload, redirectToSignup } = getCookieData(req)
+
 	try {
-		const hasCookie = req.cookies[USER_TOKEN]
-		if (!hasCookie) {
+		if (hasError) {
 			return {
-				redirect,
+				redirect: redirectToSignup,
 			}
 		}
 
-		const jwtToken: any = verifyJWT(hasCookie)
-		if (!jwtToken || jwtToken === 'string') {
-			return { redirect }
-		}
-
 		const user = {
-			name: jwtToken.name,
-			username: jwtToken.username,
-			avatarUrl: jwtToken.avatarUrl,
-			reposUrl: jwtToken.reposUrl,
-			followersCount: jwtToken.followersCount,
-			followingCount: jwtToken.followingCount,
+			name: jwtPayload.name,
+			username: jwtPayload.username,
+			avatarUrl: jwtPayload.avatarUrl,
+			reposUrl: jwtPayload.reposUrl,
+			followersCount: jwtPayload.followersCount,
+			followingCount: jwtPayload.followingCount,
 		}
 
 		return {
@@ -64,6 +54,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		}
 	} catch (err) {
 		console.log('Failed to verify JWT Token', err)
-		return { redirect }
+		return { redirect: redirectToSignup }
 	}
 }

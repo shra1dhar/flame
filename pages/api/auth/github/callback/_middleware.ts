@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getUserGithubDetails } from '../../../../../lib/github-api'
-import { createJWTToken } from '../../../../../lib/jwt/jwt-token'
-import { setUserCookie } from '../../../../../lib/jwt/set-jwt-cookie'
+import { getUserGithubDetails } from '@lib/github-api'
+import { createJWTToken } from '@lib/jwt/jwt-token'
+import { setUserCookie } from '@lib/jwt/set-jwt-cookie'
 
 // @TODO - To prevent CSRF attack, add an unguessable string as 'state' parameter
 // check the value of state and compare in this middlewareMore on here:
@@ -58,7 +58,7 @@ async function getGithubAccessToken(code: string): Promise<AccessToken> {
 			body: JSON.stringify(body),
 			headers: {
 				'Content-Type': 'application/json',
-				Accept: 'application/json',
+				Accept: 'application/vnd.github.v3+json',
 			},
 		})
 
