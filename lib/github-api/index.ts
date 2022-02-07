@@ -33,14 +33,10 @@ const getUserGithubDetails = async (accessToken: string) => {
 	return { hasError, data }
 }
 
-// async function fetchRepos(accessToken: string, username: string) {
-//   @TODO
-// }
-
 function getHeaders(accessToken: string) {
 	const myHeaders = new Headers()
 	myHeaders.append('Authorization', `Bearer ${accessToken}`)
 	return myHeaders
 }
 
-export { getUserGithubDetails }
+export { getUserGithubDetails, getHeaders }

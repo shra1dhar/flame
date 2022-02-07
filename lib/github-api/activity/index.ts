@@ -1,4 +1,6 @@
-import { url } from 'inspector'
+import { NextRequest } from 'next/server'
+import { getCookieData } from '@lib/jwt/get-session-cookie-data'
+import { getHeaders } from '..'
 
 interface Commits {
 	sha: string
@@ -23,40 +25,81 @@ interface PushActivity {
 	}
 }
 
-const getGithubActivity = async (username: string, headers: object) => {
-	const URI = `https://api.github.com/users/${username}/events`
+interface ActivityApiResponse {
+	response: {
+		data: PushActivity[]
+		pollingInterval: number
+	}
+	statusCode: number
+}
+
+const getGithubActivity = async (req: NextRequest): Promise<ActivityApiResponse> => {
+	let pollingInterval = 60 // seconds
+	const { hasError, jwtPayload } = getCookieData(req)
+
+	if (hasError) {
+		return {
+			response: { data: [], pollingInterval },
+			statusCode: 401,
+		}
+	}
+
+	let statusCode = 200
+	const URI = `https://api.github.com/users/${jwtPayload.username}/events`
 
 	try {
 		const res = await fetch(URI, {
 			method: 'GET',
 			headers: {
+				...getHeaders(jwtPayload.code),
 				Accept: 'application/vnd.github.v3+json',
 			},
 		})
-		const data = await res.json()
-		return parseGithubActivity(data)
+
+		statusCode = res.status
+		const intervalTime = res.headers.get('X-Poll-Interval')
+		pollingInterval = !!intervalTime ? parseInt(intervalTime, 10) : pollingInterval
+		const activities = await res.json()
+
+		return {
+			response: { data: parseGithubActivity(activities), pollingInterval },
+			statusCode,
+		}
 	} catch (err) {
 		console.log('Could not fetch/process push activity', err)
-		return []
+		return {
+			response: { data: [], pollingInterval },
+			statusCode,
+		}
 	}
 }
 
 function parseGithubActivity(data: any): PushActivity[] {
-	return (data || []).map((val: any) => {
-		const { commits } = data.payload
+	const pushActivity = []
+	for (const event of data || []) {
+		if (pushActivity.length === 5) {
+			break
+		}
+		if (event.type === 'PushEvent') {
+			pushActivity.push(event)
+		}
+	}
+
+	return pushActivity.map((activity: any) => {
+		const { commits = [] } = activity.payload
 		return {
-			id: data.id,
+			id: activity.id,
 			actor: {
-				username: data.actor.login,
-				avatarUrl: data.actor.avatar_url,
+				username: activity.actor.login,
+				avatarUrl: activity.actor.avatar_url,
 			},
 			repo: {
-				id: data.repo.login,
-				name: data.repo.name,
-				url: data.repo.url,
+				id: activity.repo.login,
+				name: activity.repo.name,
+				url: activity.repo.url,
 			},
 			payload: {
-				pushId: data.payload.push_id,
+				pushId: activity.payload.push_id,
 				commits: commits.map((commit: any) => ({
 					sha: commit.sha,
 					url: commit.url,

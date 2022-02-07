@@ -11,6 +11,7 @@ interface SessionCookiePayload extends JwtPayload {
 	reposUrl: string
 	followersCount: number
 	followingCount: number
+	code: string
 }
 
 interface SessionCookieResponse {
@@ -31,6 +32,7 @@ const fallbackJWTData = {
 	reposUrl: '',
 	followersCount: 0,
 	followingCount: 0,
+	code: '',
 } as const
 
 const invalidCaseResponse: SessionCookieResponse = {
