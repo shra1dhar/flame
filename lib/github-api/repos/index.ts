@@ -9,15 +9,18 @@ interface Repos {
 	pushedAt: string
 	description: string
 	starGazersCount: number
-	size: string // change from number to string (KB/MB etc)
+	size: number // later change from number to string (KB/MB etc)
 }
 
-interface RepoResponse {}
+interface RepoResponse {
+	data: Repos[]
+	errorCode: number
+}
 
-const getGithubRepos = async (req: NextRequest) => {
+const getGithubRepos = async (req: NextRequest): Promise<RepoResponse> => {
 	const { hasError, jwtPayload } = getCookieData(req)
 	if (hasError) {
-		return { data: [] }
+		return { data: [], errorCode: 401 }
 	}
 
 	const URI = `${jwtPayload.reposUrl}?sort=pushed&per_page=6`
@@ -33,11 +36,23 @@ const getGithubRepos = async (req: NextRequest) => {
 		})
 
 		const repos = await res.json()
-		return { data: repos }
+		return { data: parseRepos(repos), errorCode: 200 }
 	} catch (err) {
 		console.log('Cannot fetch github repos', err)
-		return { data: [] }
+		return { data: [], errorCode: 200 }
 	}
+}
+
+function parseRepos(repos: any): Repos[] {
+	return repos.map((repo: any) => ({
+		id: repo.id,
+		name: repo.name,
+		language: repo.language,
+		pushedAt: repo.pushed_at,
+		description: repo.description,
+		starGazersCount: repo.stargazers_count,
+		size: repo.size,
+	}))
 }
 
 export { getGithubRepos }
