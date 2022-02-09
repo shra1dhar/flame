@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { HomeUser } from 'pages/home'
 import style from './style.module.scss'
 import Navbar from '@components/navbar'
+import Tab from '@components/tab'
 
 const HomePage: FC<HomeUser> = ({ user }) => {
 	const { name, username, avatarUrl, repoUrl, followersCount, followingCount } = user
@@ -30,6 +31,8 @@ const HomePage: FC<HomeUser> = ({ user }) => {
 							<span>0</span>
 						</div>
 					</div>
+
+					<Tab list={[{ name: 'Head1', component: <></> }]} />
 				</section>
 			</div>
 		</>

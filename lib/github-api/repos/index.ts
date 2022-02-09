@@ -14,13 +14,13 @@ interface Repos {
 
 interface RepoResponse {
 	data: Repos[]
-	errorCode: number
+	statusCode: number
 }
 
 const getGithubRepos = async (req: NextRequest): Promise<RepoResponse> => {
 	const { hasError, jwtPayload } = getCookieData(req)
 	if (hasError) {
-		return { data: [], errorCode: 401 }
+		return { data: [], statusCode: 401 }
 	}
 
 	const URI = `${jwtPayload.reposUrl}?sort=pushed&per_page=6`
@@ -36,10 +36,10 @@ const getGithubRepos = async (req: NextRequest): Promise<RepoResponse> => {
 		})
 
 		const repos = await res.json()
-		return { data: parseRepos(repos), errorCode: 200 }
+		return { data: parseRepos(repos), statusCode: 200 }
 	} catch (err) {
 		console.log('Cannot fetch github repos', err)
-		return { data: [], errorCode: 200 }
+		return { data: [], statusCode: 200 }
 	}
 }
 

@@ -26,8 +26,8 @@ interface PushActivity {
 }
 
 interface ActivityApiResponse {
-	response: {
-		data: PushActivity[]
+	data: {
+		pushActivity: PushActivity[]
 		pollingInterval: number
 	}
 	statusCode: number
@@ -39,7 +39,7 @@ const getGithubActivity = async (req: NextRequest): Promise<ActivityApiResponse>
 
 	if (hasError) {
 		return {
-			response: { data: [], pollingInterval },
+			data: { pushActivity: [], pollingInterval },
 			statusCode: 401,
 		}
 	}
@@ -62,13 +62,13 @@ const getGithubActivity = async (req: NextRequest): Promise<ActivityApiResponse>
 		const activities = await res.json()
 
 		return {
-			response: { data: parseGithubActivity(activities), pollingInterval },
+			data: { pushActivity: parseGithubActivity(activities), pollingInterval },
 			statusCode,
 		}
 	} catch (err) {
 		console.log('Could not fetch/process push activity', err)
 		return {
-			response: { data: [], pollingInterval },
+			data: { pushActivity: [], pollingInterval },
 			statusCode,
 		}
 	}
