@@ -31,8 +31,10 @@ const HomePage: FC<HomeUser> = ({ user }) => {
 							<span>0</span>
 						</div>
 					</div>
+				</section>
 
-					<Tab list={[{ name: 'Head1', component: <></> }]} />
+				<section className={style.mainSection}>
+					<Tab list={[{ name: 'Head1', component: <h1>sd</h1> }]} />
 				</section>
 			</div>
 		</>
