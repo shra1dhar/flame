@@ -1,10 +1,15 @@
 .tabSection {
-	@apply bg-slate-600;
+	@apply bg-slate-600 flex w-full;
 }
 
 .tab {
-	@apply p-2;
+	@apply py-3 px-5 cursor-pointer text-gray-300;
+	transition-duration: 200ms;
+	&:hover {
+		@apply border-b-2 border-slate-400;
+	}
 }
 
 .active {
+	@apply border-b-2 border-slate-400;
 }

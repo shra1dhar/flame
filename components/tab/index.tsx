@@ -22,12 +22,12 @@ const Tab: FC<Props> = ({ list }) => {
 
 	return (
 		<div>
-			<div className="w-full">
+			<div className={style.tabSection}>
 				{list.map(({ name }, index) => {
-					const css = classNames(style.tabSection, { [style.active]: activeIndex === index })
+					const css = classNames(style.tab, { [style.active]: activeIndex === index })
 					return (
 						<div key={name} className={css} onClick={() => setTabIndex(index)}>
-							<h2 className={style.tab}>{name}</h2>
+							{name}
 						</div>
 					)
 				})}

@@ -1,7 +1,12 @@
-.mainSection {
-	@apply p-10;
-	@apply bg-gray-700 w-full shadow-xl drop-shadow-lg flex-wrap;
-	max-width: 920px;
+.homeBody {
+	@apply flex justify-center w-full flex-col items-center;
+	.mainSection {
+		@apply p-10;
+		@apply mb-5;
+		@apply border-l border-slate-600;
+		@apply bg-gray-700 w-full shadow-xl drop-shadow-lg;
+		max-width: 920px;
+	}
 }
 
 .avatar {

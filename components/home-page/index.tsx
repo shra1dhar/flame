@@ -12,7 +12,7 @@ const HomePage: FC<HomeUser> = ({ user }) => {
 	return (
 		<>
 			<Navbar />
-			<div className="flex justify-center w-full">
+			<div className={style.homeBody}>
 				<section className={style.mainSection}>
 					<div className="flex flex-initial text-gray-300">
 						<div>
@@ -34,7 +34,12 @@ const HomePage: FC<HomeUser> = ({ user }) => {
 				</section>
 
 				<section className={style.mainSection}>
-					<Tab list={[{ name: 'Head1', component: <h1>sd</h1> }]} />
+					<Tab
+						list={[
+							{ name: 'Head1', component: <h1>test</h1> },
+							{ name: 'Head1', component: <h1>test</h1> },
+						]}
+					/>
 				</section>
 			</div>
 		</>
