@@ -1,0 +1,14 @@
+.container {
+	min-height: 400px;
+	@apply py-5;
+}
+
+.repo,
+.activity {
+	@apply border-l-4 border-slate-400 p-5 mb-2 rounded-lg;
+	background-color: rgba(37, 47, 63, 0.5);
+}
+
+.dimText {
+	@apply text-slate-500;
+}

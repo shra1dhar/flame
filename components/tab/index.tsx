@@ -1,7 +1,6 @@
-import classNames from 'classnames'
-import e from 'cors'
 import React, { FC, useState } from 'react'
 import style from './style.module.scss'
+import classNames from 'classnames'
 
 interface Tab {
 	name: string
@@ -33,7 +32,7 @@ const Tab: FC<Props> = ({ list }) => {
 				})}
 			</div>
 
-			<div className="w-full">{list[activeIndex].component}</div>
+			<div className={style.tabBody}>{list[activeIndex].component}</div>
 		</div>
 	)
 }

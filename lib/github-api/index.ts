@@ -34,9 +34,10 @@ const getUserGithubDetails = async (accessToken: string) => {
 }
 
 function getHeaders(accessToken: string) {
-	const myHeaders = new Headers()
-	myHeaders.append('Authorization', `Bearer ${accessToken}`)
-	return myHeaders
+	const headers = new Headers()
+	headers.append('Authorization', `Bearer ${accessToken}`)
+	headers.append('Accept', 'application/vnd.github.v3+json')
+	return headers
 }
 
 export { getUserGithubDetails, getHeaders }

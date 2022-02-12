@@ -21,15 +21,17 @@ interface PushActivity {
 	}
 	payload: {
 		pushId: string
-		commits: Commits
+		commits: Commits[]
 	}
+	createdAt: string
 }
 
+export interface ActivityData {
+	pushActivity: PushActivity[]
+	pollingInterval: number
+}
 interface ActivityApiResponse {
-	data: {
-		pushActivity: PushActivity[]
-		pollingInterval: number
-	}
+	data: ActivityData
 	statusCode: number
 }
 
@@ -50,10 +52,7 @@ const getGithubActivity = async (req: NextRequest): Promise<ActivityApiResponse>
 	try {
 		const res = await fetch(URI, {
 			method: 'GET',
-			headers: {
-				...getHeaders(jwtPayload.code),
-				Accept: 'application/vnd.github.v3+json',
-			},
+			headers: getHeaders(jwtPayload.code),
 		})
 
 		statusCode = res.status
@@ -84,17 +83,17 @@ function parseGithubActivity(data: any): PushActivity[] {
 			pushActivity.push(event)
 		}
 	}
-
+	debugger
 	return pushActivity.map((activity: any) => {
 		const { commits = [] } = activity.payload
 		return {
 			id: activity.id,
 			actor: {
-				username: activity.actor.login,
+				username: activity.actor.display_login || activity.actor.login,
 				avatarUrl: activity.actor.avatar_url,
 			},
 			repo: {
-				id: activity.repo.login,
+				id: activity.repo.id,
 				name: activity.repo.name,
 				url: activity.repo.url,
 			},
@@ -106,6 +105,7 @@ function parseGithubActivity(data: any): PushActivity[] {
 					message: commit.message,
 				})),
 			},
+			createdAt: activity.created_at,
 		}
 	})
 }

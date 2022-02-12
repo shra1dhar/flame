@@ -13,3 +13,7 @@
 .active {
 	@apply border-b-2 border-slate-400;
 }
+
+.tabBody {
+	@apply w-full;
+}

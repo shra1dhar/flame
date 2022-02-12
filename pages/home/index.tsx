@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { GetServerSideProps } from 'next'
 import HomePage from '@components/home-page'
 import { getCookieData } from '@lib/jwt/get-session-cookie-data'
+import getGithubActivity, { ActivityData } from '@lib/github-api/activity'
 
 interface GithubUser {
 	name: string
@@ -14,13 +15,13 @@ interface GithubUser {
 
 export interface HomeUser {
 	user: GithubUser
+	activities: ActivityData
 }
 
-const Home: FC<HomeUser> = ({ user }) => {
+const Home: FC<HomeUser> = ({ user, activities }) => {
 	return (
 		<div>
-			<HomePage user={user} />
-			This is home{JSON.stringify(user)}
+			<HomePage user={user} activities={activities} />
 		</div>
 	)
 }
@@ -38,6 +39,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			}
 		}
 
+		const activityResponse = await getGithubActivity(req)
+
 		const user = {
 			name: jwtPayload.name,
 			username: jwtPayload.username,
@@ -50,6 +53,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		return {
 			props: {
 				user,
+				activities: activityResponse.data,
 			},
 		}
 	} catch (err) {

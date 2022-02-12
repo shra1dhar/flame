@@ -4,8 +4,9 @@ import { HomeUser } from 'pages/home'
 import style from './style.module.scss'
 import Navbar from '@components/navbar'
 import Tab from '@components/tab'
+import UserDashActivity from './user-dash-activity'
 
-const HomePage: FC<HomeUser> = ({ user }) => {
+const HomePage: FC<HomeUser> = ({ user, activities }) => {
 	const { name, username, avatarUrl, repoUrl, followersCount, followingCount } = user
 	const finalName = name || username
 
@@ -33,14 +34,7 @@ const HomePage: FC<HomeUser> = ({ user }) => {
 					</div>
 				</section>
 
-				<section className={style.mainSection}>
-					<Tab
-						list={[
-							{ name: 'Head1', component: <h1>test</h1> },
-							{ name: 'Head1', component: <h1>test</h1> },
-						]}
-					/>
-				</section>
+				<UserDashActivity css={style.mainSection} activities={activities} />
 			</div>
 		</>
 	)
