@@ -27,13 +27,10 @@ const Activity: FC<Props> = ({ data }) => {
 							</div>
 
 							<div className="flex-grow pl-5">
-								{/* <div> */}
 								<h3 className="text-lg">
 									<strong>{activity.repo.name}</strong>
 								</h3>
-								{/* </div> */}
 								<div>
-									{' '}
 									<ul className="pl-2">
 										{commits.map((commit) => (
 											<a key={commit.sha} href={commit.url}>

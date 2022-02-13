@@ -83,7 +83,7 @@ function parseGithubActivity(data: any): PushActivity[] {
 			pushActivity.push(event)
 		}
 	}
-	debugger
+
 	return pushActivity.map((activity: any) => {
 		const { commits = [] } = activity.payload
 		return {

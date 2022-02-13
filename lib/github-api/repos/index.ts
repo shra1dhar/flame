@@ -41,7 +41,7 @@ const getGithubRepos = async (req: NextRequest): Promise<RepoResponse> => {
 }
 
 function parseRepos(repos: any): Repos[] {
-	return (repos || []).map((repo: any) => ({
+	return repos.map((repo: any) => ({
 		id: repo.id,
 		name: repo.name,
 		language: repo.language,
